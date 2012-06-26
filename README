@@ -1,13 +1,16 @@
 # bavannah
 
-FIXME: write description
+A simple implementation of Havannah - rules according to the google codejam: http://code.google.com/codejam/contest/1835486/dashboard#s=p1
+
+ - Front-end, show board, handle mouseclicks and state update?
+ - State and the rules
 
 ## Usage
 
-FIXME: write
+Enjoy.
 
 ## License
 
-Copyright (C) 2012 FIXME
+Copyright (C) 2012 CmdrDats
 
 Distributed under the Eclipse Public License, the same as Clojure.
