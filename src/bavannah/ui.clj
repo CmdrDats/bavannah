@@ -44,28 +44,34 @@
 
 (defn draw []
   (background-float 196)
-  (let [size 20
-        a (/ size 2)
-        b (* (sin (radians 60)) size)]
-    (doseq [x (range 9)
-            y (range 9)]
-      (let [cell (cell-state state [x y])
-            posx (+ 300 (- (* x (+ a size)) (* y (+ size a))))
-            posy (+ 100 (+ (* x b) (* y b)))]
-        (cond
-         (= cell 0)
-         (draw-empty-cell [posx posy] size)
-
-         (= cell 1)
-         (draw-filled-cell [posx posy] size)))
-      )
-
-    (let [[x y] @(state :mouse-position)]
-      (stroke-weight 4)
-      (ellipse x y 4 4)
-
-      
-      )))
+    (let [size 20
+          a (/ size 2)
+          b (* (sin (radians 60)) size)
+          xsize (+ a size)
+          selected (atom [-1 -1])]
+      (let [[x y] @(state :mouse-position)]
+        (stroke-weight 4)
+        (ellipse x y 4 4)
+        
+        (let [bx (+ (/ (- y 100) xsize) (/ (- x 300) xsize) )
+              by (+ (/ (- x 300 b)) (/ (- y 100) b))]
+          (reset! selected [(round bx) (round by)]))
+        )
+      (doseq [x (range 9)
+              y (range 9)]
+        (let [cell (cell-state state [x y])
+              posx (+ 300 (- (* x xsize) (* y xsize)))
+              posy (+ 100 (+ (* x b) (* y b)))]
+          (cond
+           (= [x y] @selected)
+           (draw-filled-cell [posx posy] size)
+           
+           (= cell 0)
+           (draw-empty-cell [posx posy] size)
+           
+           (= cell 1)
+           (draw-filled-cell [posx posy] size)))
+        )))
 
 
 (defn mouse-moved []
